@@ -1,0 +1,47 @@
+{
+    "Version": "2012-10-17",
+    "Id": "PutObjPolicy",
+    "Statement": [
+        {
+            "Sid": "DenyUnencryptedCommunications",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::technova-secure-data/*",
+            "Condition": {
+                "Bool": {
+                    "aws:SecureTransport": "false"
+                }
+            }
+        },
+        {
+            "Sid": "DenyIncorrectEncryptionHeader",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::technova-secure-data/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-server-side-encryption": "aws:kms"
+                }
+            }
+        },
+        {
+            "Sid": "DenyMissingEncryptionHeader",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::technova-secure-data/*",
+            "Condition": {
+                "Null": {
+                    "s3:x-amz-server-side-encryption": "true"
+                }
+            }
+        }
+    ]
+}
+// ✅ MELHORES PRÁTICAS DE SEGURANÇA:
+// 1. "DenyUnencryptedCommunications": Força o uso de HTTPS (TLS). Se tentar acessar via HTTP, o acesso é negado.
+// 2. "DenyIncorrectEncryptionHeader": Garante que apenas criptografia KMS seja aceita.
+// 3. "DenyMissingEncryptionHeader": Impede o upload de qualquer arquivo que não solicite explicitamente a criptografia.
+// Esta política implementa o conceito de "Segurança por Padrão".

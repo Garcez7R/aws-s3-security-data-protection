@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::technova-prod-backups/*"
+        },
+        {
+            "Sid": "AllowAllActionsForAnyone",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::technova-prod-backups",
+                "arn:aws:s3:::technova-prod-backups/*"
+            ]
+        }
+    ]
+}
+// ❌ AVISO DE SEGURANÇA: ESTA POLÍTICA É EXTREMAMENTE INSEGURA.
+// 1. O Principal "*" permite que QUALQUER PESSOA na internet acesse os dados.
+// 2. O Sid "PublicReadGetObject" torna todos os objetos públicos para leitura.
+// 3. O Sid "AllowAllActionsForAnyone" permite que qualquer pessoa delete ou modifique seus dados.
+// NUNCA utilize configurações como esta em ambientes reais.

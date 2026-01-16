@@ -1,0 +1,17 @@
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de editor
+.vscode/
+.idea/
+
+# Arquivos de credenciais (NUNCA commitar credenciais!)
+*.pem
+*.key
+credentials
+.aws/
+
+# Arquivos temporários
+*.log
+*.tmp

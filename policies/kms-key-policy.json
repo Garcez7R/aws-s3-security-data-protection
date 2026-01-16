@@ -1,0 +1,48 @@
+{
+    "Version": "2012-10-17",
+    "Id": "KMSKeyPolicy",
+    "Statement": [
+        {
+            "Sid": "Enable Admin Access",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::123456789012:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "Allow S3 to use the key",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "s3.amazonaws.com"
+            },
+            "Action": [
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceArn": "arn:aws:s3:::technova-secure-data"
+                }
+            }
+        },
+        {
+            "Sid": "Allow Developers to Encrypt Only",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::123456789012:role/DeveloperRole"
+            },
+            "Action": [
+                "kms:Encrypt",
+                "kms:GenerateDataKey*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+// ✅ GOVERNANÇA DE CHAVES:
+// 1. Separação de Deveres: Apenas o serviço S3 e papéis autorizados podem usar a chave.
+// 2. Condição aws:SourceArn: Garante que a chave só seja usada pelo bucket específico da TechNova.
+// 3. Restrição de Desenvolvedores: O papel de desenvolvedor pode criptografar dados (upload), mas não necessariamente descriptografar (download), dependendo da necessidade.
