@@ -17,7 +17,7 @@ A TechNova Solutions identificou que possuía mais de **500TB** de dados sensív
 
 ## 2. A Solução: Arquitetura de "Cofre de Dados"
 
-A equipe de segurança, liderada por **Rafael Garcez**, implementou uma arquitetura baseada em 5 pilares de proteção:
+A equipe de segurança, implementou uma arquitetura baseada em 5 pilares de proteção:
 
 ### A. Perímetro de Acesso Público Zero
 Foi ativado o **S3 Block Public Access** em nível de conta. Isso agiu como um "disjuntor", desativando instantaneamente qualquer permissão pública existente e impedindo a criação de novas, independentemente de políticas de bucket ou ACLs.
